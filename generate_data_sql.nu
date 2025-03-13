@@ -29,7 +29,7 @@ def create_date_current_year [today: record, time: record]: nothing -> string {
     let day = $today.day - (random int 1..($today.day - 1)) | add_zero_left
     let month = $today.month - (random int 0..($today.month - 1)) | add_zero_left
 
-    $"2025-($month)-($day) ($time.hours):($time.minutes):($time.seconds)"
+    $"($today.year)-($month)-($day) ($time.hours):($time.minutes):($time.seconds)"
 }
 
 def create_date [year: int, time: record]: nothing -> string {
