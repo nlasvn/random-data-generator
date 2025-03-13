@@ -1,5 +1,5 @@
 def create_random_data []: nothing -> record {
-    (1..1000) | each {
+    1..1000 | each {
         let temperatura = random int 5..40
         let luminosidade = random int 0..1000
         let umidade = random int 0..100
