@@ -10,15 +10,33 @@ def create_random_data []: nothing -> record {
 }
 
 def generate_random_datetime []: nothing -> string {
-    let day = random int 1..28 | add_zero_left
-    let month = random int 1..12 | add_zero_left
-    let year = 2025
+    let today = (date now) | into record
+    let year = $today.year - (random int 0..2)
 
     let hours = random int 0..23 | add_zero_left
     let minutes = random int 0..59 | add_zero_left
     let seconds = random int 0..59 | add_zero_left
+    
+    let time = { hours: $hours, minutes: $minutes, seconds: $seconds }
 
-    $"($year)-($month)-($day) ($hours):($minutes):($seconds)"
+    match year {
+        2025 => (create_date_2025 $today $time)
+        _ => (create_date $year $time)
+    }
+}
+
+def create_date_2025 [today, time] {
+    let day = $today.day - (random int 1..($today.day - 1)) | add_zero_left
+    let month = $today.month - (random int 0..($today.month - 1)) | add_zero_left
+
+    $"2025-($month)-($day) ($time.hours):($time.minutes):($time.seconds)"
+}
+
+def create_date [year, time] {
+    let day = random int 1..28 | add_zero_left
+    let month = random int 1..12 | add_zero_left
+
+    $"($year)-($month)-($day) ($time.hours):($time.minutes):($time.seconds)"
 }
 
 def add_zero_left []: int -> string {
