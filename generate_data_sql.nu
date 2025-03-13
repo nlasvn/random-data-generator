@@ -51,7 +51,7 @@ def generate_sql []: nothing -> string {
     let rows = create_random_data
 
     $rows | each { |row|
-        $"INSERT INTO dados \(temperatura, luminosidade, umidade, date) VALUES \(($row.temperatura), ($row.luminosidade), ($row.umidade), ($row.datetime));"
+        $"INSERT INTO dados \(temperatura, luminosidade, umidade, data) VALUES \(($row.temperatura), ($row.luminosidade), ($row.umidade), ($row.datetime));"
     } | str join "\n"
 }
 
