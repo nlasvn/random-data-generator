@@ -10,8 +10,8 @@ def create_random_data []: nothing -> record {
 }
 
 def generate_random_datetime []: nothing -> string {
-    let today = (date now) | into record
-    let year = $today.year - (random int 0..2)
+    let now = (date now) | into record
+    let year = $now.year - (random int 0..2)
 
     let hours = random int 0..23 | add_zero_left
     let minutes = random int 0..59 | add_zero_left
@@ -20,16 +20,16 @@ def generate_random_datetime []: nothing -> string {
     let time = { hours: $hours, minutes: $minutes, seconds: $seconds }
 
     match year {
-        _ if $year == $today.year => (create_date_current_year $today $time)
+        _ if $year == $now.year => (create_date_current_year $now $time)
         _ => (create_date $year $time)
     }
 }
 
-def create_date_current_year [today: record, time: record]: nothing -> string {
-    let day = $today.day - (random int 1..($today.day - 1)) | add_zero_left
-    let month = $today.month - (random int 0..($today.month - 1)) | add_zero_left
+def create_date_current_year [now: record, time: record]: nothing -> string {
+    let day = $now.day - (random int 1..($now.day - 1)) | add_zero_left
+    let month = $now.month - (random int 0..($now.month - 1)) | add_zero_left
 
-    $"($today.year)-($month)-($day) ($time.hours):($time.minutes):($time.seconds)"
+    $"($now.year)-($month)-($day) ($time.hours):($time.minutes):($time.seconds)"
 }
 
 def create_date [year: int, time: record]: nothing -> string {
