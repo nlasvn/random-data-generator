@@ -3,13 +3,13 @@ def create_random_data []: nothing -> record {
         let temperatura = random int 5..40
         let luminosidade = random int 0..1000
         let umidade = random int 0..100
-        let datetime = generate_random_datetime
+        let timestamp = generate_random_timestamp
 
-        { temperatura: $temperatura, luminosidade: $luminosidade, umidade: $umidade, datetime: $datetime }
+        { temperatura: $temperatura, luminosidade: $luminosidade, umidade: $umidade, timestamp: $timestamp }
     }
 }
 
-def generate_random_datetime []: nothing -> string {
+def generate_random_timestamp []: nothing -> string {
     let now = (date now) | into record
     let year = $now.year - (random int 0..2)
 
@@ -51,7 +51,7 @@ def generate_sql []: nothing -> string {
     let rows = create_random_data
 
     $rows | each { |row|
-        $"INSERT INTO dados \(temperatura, luminosidade, umidade, data) VALUES \(($row.temperatura), ($row.luminosidade), ($row.umidade), ($row.datetime));"
+        $"INSERT INTO sensor_data \(temperatura, luminosidade, umidade, recorded_at) VALUES \(($row.temperatura), ($row.luminosidade), ($row.umidade), ($row.timestamp));"
     } | str join "\n"
 }
 
